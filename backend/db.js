@@ -8,26 +8,18 @@ const mongoDB = async () => {
     console.log("Connected to MongoDB Atlas");
     
     // Retrieve and print the data
-    const collection = mongoose.connection.db.collection("food_item");
-    const data = await collection.find({}).toArray(async function(err,data){
-      const foodCategory=await mongoose.connection.db.collection("food_category")
-      foodCategory.find({}).toArray(function(err,catData){
-        if(err) console.log(err);
-        else{
-          global.food_items=data;
-          global.foodCategory=catData;
-        }
-      })
-    });
-  //   global.food_items=data;
-  //   // console.log(global.food_items);
-  // } catch (error) {
-  //   console.error("An error occurred while connecting to MongoDB:", error);
-  } 
-  finally {
-    // Close the connection
-    mongoose.connection.close();
+    const collection = mongoose.connection.collection("food_item");
+    const foodCategory=await mongoose.connection.collection("food_category");
+
+    const data = await collection.find({}).toArray()
+    const catData = await foodCategory.find({}).toArray()
+
+    global.food_items = data;
+    global.food_category = catData
+    
+  } catch (err) {
+    console.error(err);
   }
-};
+}
 
 module.exports = mongoDB;
