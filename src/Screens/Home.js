@@ -10,7 +10,7 @@ export default function Home() {
 
   const loadData = async () => {
     let response = await fetch("http://localhost:5000/api/foodData", {
-      method: "POST",
+      method: "GET",
       headers: {
         'Content-Type': 'application/json'
       }
@@ -41,7 +41,7 @@ export default function Home() {
                   .filter((item) => item.CategoryName === data.CategoryName)
                   .map((filterItems) => (
                     <div key={filterItems._id}>
-                      <Card></Card>
+                      <Card details={filterItems}/>
                     </div>
                   ))}
             </div>
